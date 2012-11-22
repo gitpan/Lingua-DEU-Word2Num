@@ -20,4 +20,4 @@ requires:
   Perl6::Export::Attrs: 0
   strict: 0
   warnings: 0
-version: 666
+version: 0.044

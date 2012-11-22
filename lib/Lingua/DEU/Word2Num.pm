@@ -15,7 +15,8 @@ use Perl6::Export::Attrs;
 # }}}
 # {{{ variables
 
-our $VERSION = '';
+my($ver)      = ('$Rev: 440 $' =~ m{(\d+)}xms);
+our $VERSION = $ver / 10_000;
 my $parser   = deu_numerals();
 
 # }}}
@@ -119,12 +120,12 @@ Lingua::DEU::Word2Num
 
 =head1 VERSION
 
-version 666
+version 0.044
 
 text to positive number convertor for German.
 Input text must be in encoded in utf-8.
 
-=head2 $Rev: 419 $
+=head2 $Rev: 440 $
 
 ISO 639-3 namespace.
 
