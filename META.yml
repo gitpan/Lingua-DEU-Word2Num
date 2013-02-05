@@ -1,5 +1,5 @@
 ---
-abstract: 'Lingua::DEU::Word2Num is module for converting text containing number representation in German back into number. Converts whole numbers from 0 up to 999 999 999.'
+abstract: 'Word 2 Number conversion in DEU.'
 author:
   - 'PetaMem s.r.o. <info@petamem.com>'
 build_requires:
@@ -20,4 +20,4 @@ requires:
   Perl6::Export::Attrs: 0
   strict: 0
   warnings: 0
-version: 0.044
+version: 0.0577
