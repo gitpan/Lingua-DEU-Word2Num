@@ -17,7 +17,7 @@ use Perl6::Export::Attrs;
 # }}}
 # {{{ variables
 
-our $VERSION = 0.0682;
+our $VERSION = 0.1101;
 my $parser   = deu_numerals();
 
 # }}}
@@ -35,13 +35,14 @@ sub w2n :Export {
 sub deu_numerals {
     return Parse::RecDescent->new(decode_utf8(q{
       numeral:      <rulevar: local $number = 0>
-      numeral:       millenium
+      numeral:        scrap
+                    { return undef; }
+                  |   millenium
                     { return $item[1]; }
                   |  century
                     { return $item[1]; }
                   |  decade
                     { return $item[1]; }
-                  | { return undef; }
 
       number:       'dreizehn'  { $return = 13; }
                   | 'vierzehn'  { $return = 14; }
@@ -102,6 +103,12 @@ sub deu_numerals {
                 | century 'tausend'
                 { $return = $item[1] * 1000; }
 
+      scrap:    millenium(?) century(?) decade(?)
+                /(.+)/
+                millenium(?) century(?) decade(?)
+                {
+                  carp("unknown numeral '$1' !\n");
+                }
     }));
 }
 
@@ -117,18 +124,26 @@ __END__
 
 =head1 NAME
 
-Lingua::DEU::Word2Num
+=head2 Lingua::DEU::Word2Num  $Rev: 1079 $
 
 =head1 VERSION
 
-version 0.0682
+version 0.1101
 
-text to positive number convertor for German.
-Input text must be in encoded in utf-8.
+Word 2 Number conversion in DEU.
 
-=head2 $Rev: 682 $
+Lingua::DEU::Word2Num is module for converting text containing number
+representation in German back into number. Converts whole numbers from 0 up
+to 999 999 999.
 
-ISO 639-3 namespace.
+Text must be encoded in UTF-8.
+
+=cut
+
+# }}}
+# {{{ SYNOPSIS
+
+=pod
 
 =head1 SYNOPSIS
 
@@ -138,36 +153,48 @@ ISO 639-3 namespace.
 
  print defined($num) ? $num : "sorry, can't convert this text into number.";
 
-=head1 DESCRIPTION
+=cut
 
-Word 2 Number conversion in DEU.
+# }}}
+# {{{ Functions Reference
 
-Lingua::DEU::Word2Num is module for converting text containing number
-representation in German back into number. Converts whole numbers from 0 up
-to 999 999 999.
+=pod
+
+=head1 Functions Reference
+
+=over 2
+
+=item B<w2n> (positional)
+
+  1   str    string to convert
+  =>  num    converted number
+      undef  if input string is not known
+
+Convert text representation to number.
+
+
+=item B<deu_numerals> (void)
+
+  =>  obj  new parser object
+
+Internal parser.
+
+
+=back
 
 =cut
 
 # }}}
-# {{{ Functions reference
+# {{{ EXPORTED FUNCTIONS
 
 =pod
 
-=head2 Functions Reference
+=head1 EXPORT_OK
 
-=over
+=over 2
 
-=item w2n (positional)
+=item w2n
 
-  1   string  string to convert
-  =>  number  converted number
-      undef   if input string is not known
-
-Convert text representation to number.
-
-=item deu_numerals
-
-Internal parser.
 
 =back
 
@@ -178,28 +205,15 @@ Internal parser.
 
 =pod
 
-=head1 EXPORT_OK
-
-w2n
-
-=head1 KNOWN BUGS
-
-None.
-
 =head1 AUTHOR
 
  coding, maintenance, refactoring, extensions, specifications:
-   Richard C. Jelinek <info@petamem.com>
- initial coding after specification by R. Jelinek:
+
    Roman Vasicek <info@petamem.com>
 
 =head1 COPYRIGHT
 
 Copyright (C) PetaMem, s.r.o. 2004-present
-
-=head2 LICENSE
-
-Artistic license or BSD license.
 
 =cut
 
