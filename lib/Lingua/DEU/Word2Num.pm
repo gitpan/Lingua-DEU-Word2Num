@@ -17,7 +17,7 @@ use Perl6::Export::Attrs;
 # }}}
 # {{{ variables
 
-our $VERSION = 0.1101;
+our $VERSION = 0.1106;
 my $parser   = deu_numerals();
 
 # }}}
@@ -124,11 +124,11 @@ __END__
 
 =head1 NAME
 
-=head2 Lingua::DEU::Word2Num  $Rev: 1079 $
+=head2 Lingua::DEU::Word2Num  
 
 =head1 VERSION
 
-version 0.1101
+version 0.1106
 
 Word 2 Number conversion in DEU.
 
@@ -171,6 +171,7 @@ Text must be encoded in UTF-8.
       undef  if input string is not known
 
 Convert text representation to number.
+You can specify a numeral from interval [0,999_999].
 
 
 =item B<deu_numerals> (void)
